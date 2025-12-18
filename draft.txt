@@ -1,0 +1,279 @@
+🎯 1) Tema final (versão IPCA)
+SmartStudyRooms — Sistema Inteligente de Gestão de Salas da Biblioteca do IPCA
+
+O sistema permite que alunos e professores:
+
+verifiquem em tempo real que salas da biblioteca estão livres
+
+façam reservas através de uma aplicação
+
+recebam notificação quando a sala fica disponível
+
+evitem ir à biblioteca “na esperança” de encontrar sala
+
+(opcional) libertem a sala automaticamente quando o sensor indicar que está vazia
+
+🧩 2) Porque este tema encaixa perfeitamente no projeto ISI?
+
+O teu trabalho de ISI pede:
+
+✔ REST CRUD
+✔ SOAP Data Layer
+✔ API externa
+✔ Microserviços
+✔ Cloud deployment
+✔ Eventual IoT/sensores
+✔ Uma aplicação cliente
+✔ Documentação Swagger
+✔ Testes
+
+👉 A tua ideia encaixa em TODOS estes pontos, aqui está como:
+
+🔹 REST API
+
+Listar salas
+
+Verificar disponibilidade
+
+Criar reserva
+
+Cancelar reserva
+
+Registar ocupação via sensor
+
+🔹 SOAP
+
+CRUD simples sobre salas e reservas (data layer)
+
+🔹 Sensores IoT (simulados)
+
+Estado da sala: ocupada / vazia
+
+Pode ser um microserviço que envia POSTs automáticos
+
+🔹 API externa (super fácil de integrar)
+
+Sugestões:
+
+Meteorologia → para sugerir salas mais confortáveis
+
+Firebase → notificações
+
+Campus IPCA (mapa) → mostrar sala mais perto
+
+🔹 Microserviços
+
+Microserviço “SensorService”
+
+Microserviço “AvailabilityChecker”
+
+🔹 Cloud
+
+Azure App Service (API)
+
+Azure SQL (base de dados)
+
+🔹 App cliente
+
+Web (Blazor/MVC) simples:
+
+ver salas livres
+
+fazer reserva
+
+cancelar reserva
+
+📌 3) Cenário realista e simples de implementar
+Exemplo de fluxo que podes mostrar ao professor:
+
+O aluno abre a app e vê:
+
+Sala 1: Ocupada
+Sala 2: Livre
+Sala 3: Livre (reservada às 14h)
+
+
+O aluno escolhe a “Sala 2” e faz a reserva.
+
+O sistema envia uma notificação (simulada).
+
+O microserviço do sensor verifica se há movimento.
+
+Se estiver vazia por 10–15 min antes do início da reserva → liberta automaticamente.
+
+Outro aluno pode reservar imediatamente.
+
+🧱 4) Modelo de dados (adaptado ao IPCA)
+SalasBiblioteca
+
+SalaId
+
+Nome (ex.: "Sala 1")
+
+Capacidade (normalmente 4)
+
+Piso
+
+Ocupada (bool)
+
+ReservadaAte (datetime)
+
+Reservas
+
+ReservaId
+
+SalaId
+
+Aluno / UtilizadorId
+
+Inicio
+
+Fim
+
+Estado (ativa, concluída, cancelada, expirada)
+
+Utilizadores
+
+UserId
+
+Nome
+
+Email
+
+Tipo (aluno, professor, staff)
+
+SensorState
+
+SalaId
+
+Ocupada (bool)
+
+UltimaAtualizacao
+
+🌐 5) Endpoints REST (simples e eficazes)
+🔹 Salas
+
+GET /salas
+
+GET /salas/disponiveis
+
+GET /salas/{id}
+
+POST /salas
+
+PUT /salas/{id}
+
+DELETE /salas/{id}
+
+🔹 Reservas
+
+GET /reservas
+
+GET /reservas/{id}
+
+POST /reservas
+
+POST /reservas/cancelar/{id}
+
+POST /reservas/libertar-automatico/{id}
+
+🔹 Sensores
+
+POST /sensores/estado
+
+{ "salaId": 1, "ocupada": false }
+
+🧼 6) SOAP Services
+
+Estes devem ser mais simples:
+
+ListarSalas()
+
+CriarSala(sala)
+
+AtualizarSala(sala)
+
+ObterSala(id)
+
+ListarReservas()
+
+CriarReserva()
+
+🌟 7) Funcionalidades Avançadas (para impressionar)
+⭐ 1) Previsão de disponibilidade
+
+Se todas as salas estão cheias → prever a hora provável da próxima disponibilidade.
+
+⭐ 2) Notificações automáticas
+
+Quando a sala fica livre.
+
+⭐ 3) Sugerir salas com base na proximidade
+
+Se alguém está no piso 1 → sugerir salas mais próximas.
+
+⭐ 4) Estatísticas para a biblioteca
+
+horas mais cheias
+
+taxa de utilização
+
+tempos médios de ocupação
+
+reservas não comparecidas
+
+🧭 8) Como organizar o teu trabalho (plano perfeito)
+📅 02 dezembro — Definição do tema
+
+Eu posso escrever para ti:
+
+✔ descrição do problema
+✔ objetivos
+✔ motivação
+✔ solução proposta
+✔ impacto
+
+📅 07 dezembro — Primeira entrega
+
+Inclui:
+
+Arquitetura completa
+
+Modelo de dados
+
+Endpoints REST + SOAP
+
+Swagger inicial
+
+Base das APIs criada
+
+Sensor simulado a enviar requests
+
+Diagrama pronto
+
+20% do código
+
+📅 28 dezembro — Entrega final
+
+API REST 100%
+
+SOAP a funcionar
+
+Sensor IoT a simular ocupação
+
+Dashboard com salas livres/ocupadas
+
+Integração API externa
+
+Deploy na cloud
+
+Relatório final completo
+
+Aplicação cliente funcional
+
+🎉 Conclusão
+
+👉 A tua ideia é excelente.
+👉 Encaixa no projeto melhor que a maioria dos temas possíveis.
+👉 É fácil de expandir e justificar.
+👉 Permite cumprir todos os critérios ISI.
