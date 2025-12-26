@@ -155,9 +155,9 @@ namespace SmartStudyRooms.Data.Repositories
             using (var conn = new SqlConnection(_conn))
             using (var cmd = new SqlCommand(
                 @"UPDATE Salas
-                SET Ocupada = 0,
-                ReservadaAte = NULL
-                WHERE SalaId = @id", conn))
+          SET Ocupada = 0,
+              ReservadaAte = NULL
+          WHERE SalaId = @id", conn))
             {
                 cmd.Parameters.Add("@id", SqlDbType.Int).Value = salaId;
                 conn.Open();
@@ -192,6 +192,27 @@ namespace SmartStudyRooms.Data.Repositories
                 conn.Open();
                 return cmd.ExecuteNonQuery();
             }
+        }
+        public IEnumerable<int> SalasComReservaExpirada()
+        {
+            var salas = new List<int>();
+
+            using (var conn = new SqlConnection(_conn))
+            using (var cmd = new SqlCommand(
+                @"SELECT SalaId
+          FROM Salas
+          WHERE ReservadaAte IS NOT NULL
+          AND ReservadaAte < GETDATE()", conn))
+            {
+                conn.Open();
+                using (var rdr = cmd.ExecuteReader())
+                {
+                    while (rdr.Read())
+                        salas.Add(rdr.GetInt32(0));
+                }
+            }
+
+            return salas;
         }
 
     }

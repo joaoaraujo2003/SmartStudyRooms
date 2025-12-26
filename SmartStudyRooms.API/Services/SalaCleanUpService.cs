@@ -37,19 +37,20 @@ namespace SmartStudyRooms.API.Services
                     var sensorRepo = scope.ServiceProvider.GetRequiredService<SensorRepository>();
                     var reservaRepo = scope.ServiceProvider.GetRequiredService<ReservaRepository>();
 
-                    // REGRA A — fim da reserva
-                    int libertadasPorTempo = salaRepo.LibertarSalasPorFimReserva();
-
-                    // REGRA B — sensor inativo 15 min
-                    var salasInativas = sensorRepo.SalasInativasHaMaisDe15Min();
-                    foreach (var salaId in salasInativas)
-                    {
+                    // Fim da reserva
+                    var salasReservaExpirada = salaRepo.SalasComReservaExpirada();
+                    foreach (var salaId in salasReservaExpirada)
                         salaRepo.LibertarSala(salaId);
-                    }
 
-                    // histórico    
+                    // Sem movimento há +10 min
+                    var salasSemMovimento = sensorRepo.SalasSemMovimentoHaMaisDe10Min();
+                    foreach (var salaId in salasSemMovimento)
+                        salaRepo.LibertarSala(salaId);
+
+                    // Histórico 
                     reservaRepo.ReservasExpiradas();
                 }
+
                 await Task.Delay(TimeSpan.FromMinutes(1), stoppingToken);
             }
         }

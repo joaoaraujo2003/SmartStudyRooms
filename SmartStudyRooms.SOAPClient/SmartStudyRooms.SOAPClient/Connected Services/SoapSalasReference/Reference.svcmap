@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ID="8fc38bb4-f1c9-4cc8-800f-c91e22f94ad4" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:23086/soap/salas?wsdl" Protocol="http" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="SalaSoapService.wsdl" MetadataType="Wsdl" ID="52574389-1964-4231-80bd-3a0897913b74" SourceId="1" SourceUrl="http://localhost:23086/soap/salas?wsdl" />
+    <MetadataFile FileName="salas.wsdl" MetadataType="Wsdl" ID="2f2e5d50-56ad-4387-9a9d-eb4329fff950" SourceId="1" SourceUrl="http://localhost:23086/soap/salas?wsdl=wsdl0" />
+    <MetadataFile FileName="salas.xsd" MetadataType="Schema" ID="18f308c9-6d41-4c5d-9804-bf68c2fd54fd" SourceId="1" SourceUrl="http://localhost:23086/soap/salas?xsd=xsd0" />
+    <MetadataFile FileName="salas1.xsd" MetadataType="Schema" ID="a805eda5-219d-4f5d-899f-533dc352d2c1" SourceId="1" SourceUrl="http://localhost:23086/soap/salas?xsd=xsd1" />
+    <MetadataFile FileName="salas2.xsd" MetadataType="Schema" ID="042b25ba-3def-4e0c-a0e5-c738ced6793a" SourceId="1" SourceUrl="http://localhost:23086/soap/salas?xsd=xsd2" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>

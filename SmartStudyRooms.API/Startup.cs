@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using CoreWCF;
+using CoreWCF.Configuration;
+using CoreWCF.Description;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -12,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using SmartStudyRooms.API.Services;
+using SmartStudyRooms.API.Services.SOAP;
 using SmartStudyRooms.Data.Repositories;
 
 namespace SmartStudyRooms.API
@@ -44,7 +48,15 @@ namespace SmartStudyRooms.API
             services.AddScoped<ReservaRepository>();
             services.AddHostedService<SalaCleanUpService>();
             services.AddScoped<SensorRepository>();
+            services.AddServiceModelServices();
+            services.AddServiceModelMetadata(); 
 
+            services.AddScoped<ISalaSoapService, SalaSoapService>();
+            services.AddScoped<SalaSoapService>();
+
+
+            services.AddScoped<IReservaSoapService, ReservaSoapService>();
+            services.AddScoped<ReservaSoapService>();
 
             // Swagger
             services.AddSwaggerGen();
@@ -80,11 +92,32 @@ namespace SmartStudyRooms.API
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "SmartStudyRooms API V1");
             });
 
+            app.UseServiceModel(builder =>
+            {
+                builder.AddService<SalaSoapService>();
+                builder.AddServiceEndpoint<SalaSoapService, ISalaSoapService>(
+                    new BasicHttpBinding(),
+                    "/soap/salas"
+                );
+
+                builder.AddService<ReservaSoapService>();
+                builder.AddServiceEndpoint<ReservaSoapService, IReservaSoapService>(
+                    new BasicHttpBinding(),
+                    "/soap/reservas"
+                );
+            });
+
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+            
+
+            var serviceMetadataBehavior = app.ApplicationServices
+                .GetRequiredService<ServiceMetadataBehavior>();
+
+            serviceMetadataBehavior.HttpGetEnabled = true;
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SmartStudyRooms.Data.Models;
+using SmartStudyRooms.Data.Dtos;
 using SmartStudyRooms.Data.Repositories;
 
 namespace SmartStudyRooms.API.Controllers
@@ -10,25 +10,25 @@ namespace SmartStudyRooms.API.Controllers
     {
         private readonly SensorRepository _sensorRepo;
         private readonly SalaRepository _salaRepo;
-
         public SensoresController(SensorRepository sensorRepo,
         SalaRepository salaRepo)
         {
-            _sensorRepo = sensorRepo;
+            _sensorRepo = sensorRepo;  
             _salaRepo = salaRepo;
         }
 
-        [HttpPost("presenca")]
-        public IActionResult AtualizarEstado([FromBody] SensorState dto)
+        [HttpPost("movimento")]
+        public IActionResult PostMovimento([FromBody] SensorDto dto)
         {
-            if (dto == null)
-                return BadRequest();
+            _sensorRepo.AtualizarSensor(dto.SalaId, dto.Movimento);
 
-            _sensorRepo.AtualizarSensor(dto.SalaId, dto.Ocupada);   
+            if (dto.Movimento)
+            {
+                // Movimento detectado → sala ocupada
+                _salaRepo.AtualizarOcupacao(dto.SalaId, true);
+            }
 
-            _salaRepo.AtualizarOcupacao(dto.SalaId, dto.Ocupada);
-
-            return Ok("Estado atualizado");
+            return Ok(new { mensagem = "Estado do sensor atualizado" });
         }
     }
 }

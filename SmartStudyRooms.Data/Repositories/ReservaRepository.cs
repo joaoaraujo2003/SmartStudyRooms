@@ -94,5 +94,73 @@ namespace SmartStudyRooms.Data.Repositories
                 return cmd.ExecuteNonQuery();
             }
         }
+        public IEnumerable<Reserva> ListarReservas()
+        {
+            var list = new List<Reserva>();
+
+            using (var conn = new SqlConnection(_conn))
+            using (var cmd = new SqlCommand(
+                "SELECT ReservaId, SalaId, Inicio, Fim, Ativa FROM Reservas", conn))
+            {
+                conn.Open();
+                using (var rdr = cmd.ExecuteReader())
+                {
+                    while (rdr.Read())
+                    {
+                        list.Add(new Reserva
+                        {
+                            ReservaId = rdr.GetInt32(0),
+                            SalaId = rdr.GetInt32(1),
+                            Inicio = rdr.GetDateTime(2),
+                            Fim = rdr.GetDateTime(3),
+                            Ativa = rdr.GetBoolean(4)
+                        });
+                    }
+                }
+            }
+            return list;
+        }
+        public void CancelarReserva(int reservaId)
+        {
+            using (var conn = new SqlConnection(_conn))
+            using (var cmd = new SqlCommand(
+                @"UPDATE Reservas
+          SET Ativa = 0
+          WHERE ReservaId = @id", conn))
+            {
+                cmd.Parameters.Add("@id", SqlDbType.Int).Value = reservaId;
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public Reserva ObterReserva(int id)
+        {
+            using (var conn = new SqlConnection(_conn))
+            using (var cmd = new SqlCommand(
+                @"SELECT ReservaId, SalaId, Inicio, Fim, Ativa
+          FROM Reservas WHERE ReservaId = @id", conn))
+            {
+                cmd.Parameters.Add("@id", SqlDbType.Int).Value = id;
+                conn.Open();
+
+                using (var rdr = cmd.ExecuteReader())
+                {
+                    if (rdr.Read())
+                    {
+                        return new Reserva
+                        {
+                            ReservaId = rdr.GetInt32(0),
+                            SalaId = rdr.GetInt32(1),
+                            Inicio = rdr.GetDateTime(2),
+                            Fim = rdr.GetDateTime(3),
+                            Ativa = rdr.GetBoolean(4)
+                        };
+                    }
+                }
+            }
+            return null;
+        }
+
     }
 }

@@ -44,30 +44,51 @@ namespace SmartStudyRooms.Data.Repositories
             return salas;
         }
 
-        public void AtualizarSensor(int salaId, bool ocupada)
+        public void AtualizarSensor(int salaId, bool movimento)
         {
             using (var conn = new SqlConnection(_conn))
             using (var cmd = new SqlCommand(
                 @"IF EXISTS (SELECT 1 FROM Sensores WHERE SalaId = @salaId)
           BEGIN
               UPDATE Sensores
-              SET Ocupada = @ocupada,
+              SET Movimento = @movimento,
                   UltimaAtualizacao = GETDATE()
               WHERE SalaId = @salaId
           END
           ELSE
           BEGIN
-              INSERT INTO Sensores (SalaId, Ocupada, UltimaAtualizacao)
-              VALUES (@salaId, @ocupada, GETDATE())
+              INSERT INTO Sensores (SalaId, Movimento, UltimaAtualizacao)
+              VALUES (@salaId, @movimento, GETDATE())
           END", conn))
             {
                 cmd.Parameters.Add("@salaId", SqlDbType.Int).Value = salaId;
-                cmd.Parameters.Add("@ocupada", SqlDbType.Bit).Value = ocupada;
+                cmd.Parameters.Add("@movimento", SqlDbType.Bit).Value = movimento;
 
                 conn.Open();
                 cmd.ExecuteNonQuery();
             }
         }
-   
+        public IEnumerable<int> SalasSemMovimentoHaMaisDe10Min()
+        {
+            var salas = new List<int>();
+
+            using (var conn = new SqlConnection(_conn))
+            using (var cmd = new SqlCommand(
+                @"SELECT SalaId
+          FROM Sensores
+          WHERE Movimento = 0
+          AND UltimaAtualizacao < DATEADD(MINUTE, -10, GETDATE())", conn))
+            {
+                conn.Open();
+                using (var rdr = cmd.ExecuteReader())
+                {
+                    while (rdr.Read())
+                        salas.Add(rdr.GetInt32(0));
+                }
+            }
+
+            return salas;
+        }
+
     }
 }

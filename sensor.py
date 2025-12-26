@@ -1,36 +1,22 @@
-import time
 import requests
+import time
 import random
-import json
 
-API_URL = "https://localhost:5001/api/sensores/estado"   # ALTERA SE FOR NECESSÁRIO
-SALA_ID = 1   # Sala a simular
+API_URL = "https://localhost:44331/api/sensores/movimento"
+SALA_ID = 1
 
-def enviar_estado(ocupada):
+while True:
+    movimento = random.choice([True, True, True, False])
+
     payload = {
         "salaId": SALA_ID,
-        "ocupada": ocupada
+        "movimento": movimento
     }
 
     try:
-        response = requests.post(API_URL, json=payload, verify=False)
-        print(f"🔵 Enviado -> {payload} | Código: {response.status_code}")
+        r = requests.post(API_URL, json=payload, verify=False)
+        print(f"[SALA {SALA_ID}] Movimento:", movimento)
     except Exception as e:
-        print(f"❌ Erro a enviar: {e}")
+        print("Erro:", e)
 
-
-def sensor_loop():
-    print("=== Sensor IoT Python Ativo ===")
-    print("A enviar dados a cada 10 segundos...")
-
-    while True:
-        # Simula ocupação aleatória (podes mudar para True/False fixo)
-        ocupacao = random.choice([True, False])
-        
-        enviar_estado(ocupacao)
-
-        time.sleep(10)  # intervalo de envio em segundos
-
-
-if __name__ == "__main__":
-    sensor_loop()
+    time.sleep(60)

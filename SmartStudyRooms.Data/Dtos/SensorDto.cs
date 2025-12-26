@@ -7,7 +7,7 @@ namespace SmartStudyRooms.Data.Dtos
     public class SensorDto
     {
         public int SalaId { get; set; }
-        public bool Ocupada { get; set; }
+        public bool Movimento { get; set; }
         public DateTime? UltimaAtualizacao { get; set; }
     }
 }
