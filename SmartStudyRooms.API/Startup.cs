@@ -107,6 +107,7 @@ namespace SmartStudyRooms.API
                 );
             });
 
+            app.UseMiddleware<ApiKeyMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

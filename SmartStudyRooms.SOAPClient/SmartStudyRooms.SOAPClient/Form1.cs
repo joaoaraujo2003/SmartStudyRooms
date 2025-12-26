@@ -29,71 +29,59 @@ namespace SmartStudyRooms.SOAPClient
 
         private void button1_Click(object sender, EventArgs e)
         {
-            /*var client = new SoapSalasReference.SalaSoapServiceClient();
 
-            var salas = client.ListarSalas();
-
-            listBox1.Items.Clear();
-
-            foreach (var sala in salas)
-            {
-                string reservadaAteTexto = sala.ReservadaAte.HasValue
-                    ? sala.ReservadaAte.Value.ToString("dd/MM/yyyy HH:mm")
-                    : "—";
-
-                string ocupadaTexto = sala.Ocupada ? "Sim" : "Não";
-
-                listBox1.Items.Add(
-                    $"ID: {sala.SalaId} | {sala.Nome} | Cap: {sala.Capacidade} | Ocupada: {ocupadaTexto} | Reservada até: {reservadaAteTexto}"
-                );
-            }*/
         }
         private void CarregarSalas()
         {
             var client = new SoapSalasReference.SalaSoapServiceClient();
-            var salas = client.ListarSalas();
-
-            listBox1.Items.Clear();
-
-            foreach (var sala in salas)
+            using (new System.ServiceModel.OperationContextScope(client.InnerChannel))
             {
-                string estado;
+                ApiKeyHelper.AddApiKey(ApiKeyConfig.ApiKey);
 
-                if (sala.Ocupada)
-                    estado = "Ocupada";
-                else if (sala.ReservadaAte != null)
-                    estado = $"Reservada até {sala.ReservadaAte:HH:mm}";
-                else
-                    estado = "Livre";
+                var salas = client.ListarSalas();
 
-                var item = new SalaClass
+                listBox1.Items.Clear();
+
+                foreach (var sala in salas)
                 {
-                    SalaId = sala.SalaId,
-                    Estado = estado,
-                    Texto = $"{sala.SalaId} - {sala.Nome} | Cap: {sala.Capacidade} | {estado}"
-                };
+                    string estado =
+                        sala.Ocupada ? "Ocupada" :
+                        sala.ReservadaAte != null ? $"Reservada até {sala.ReservadaAte:HH:mm}" :
+                        "Livre";
 
-                listBox1.Items.Add(item);
-            }   
+                    listBox1.Items.Add(new SalaClass
+                    {
+                        SalaId = sala.SalaId,
+                        Estado = estado,
+                        Texto = $"{sala.SalaId} - {sala.Nome} | Cap: {sala.Capacidade} | {estado}"
+                    });
+                }
+            }
         }
 
         private void CarregarReservas()
         {
             var client = new SoapReservasReference.ReservaSoapServiceClient();
-            var reservas = client.ListarReservas();
 
-            listBoxReservas.Items.Clear();
-
-            foreach (var r in reservas)
+            using (new System.ServiceModel.OperationContextScope(client.InnerChannel))
             {
-                listBoxReservas.Items.Add(new ReservaClass
+                ApiKeyHelper.AddApiKey(ApiKeyConfig.ApiKey);
+
+                var reservas = client.ListarReservas();
+
+                listBoxReservas.Items.Clear();
+
+                foreach (var r in reservas)
                 {
-                    ReservaId = r.ReservaId,
-                    SalaId = r.SalaId,
-                    Inicio = r.Inicio,
-                    Fim = r.Fim,
-                    Ativa = r.Ativa
-                });
+                    listBoxReservas.Items.Add(new ReservaClass
+                    {
+                        ReservaId = r.ReservaId,
+                        SalaId = r.SalaId,
+                        Inicio = r.Inicio,
+                        Fim = r.Fim,
+                        Ativa = r.Ativa
+                    });
+                }
             }
         }
 
@@ -152,12 +140,7 @@ namespace SmartStudyRooms.SOAPClient
                 MessageBox.Show("Seleção inválida de sala.");
                 return;
             }
-            //if (listBox1.SelectedItem is not SalaClass salaSelecionada)
-            //{
-            //    MessageBox.Show("Seleção inválida de sala.");
-            //    return;
-            //}
-
+         
             int salaId = salaSelecionada.SalaId;
 
             var reserva = new SoapReservasReference.Reserva
@@ -169,25 +152,18 @@ namespace SmartStudyRooms.SOAPClient
 
             var client = new SoapReservasReference.ReservaSoapServiceClient();
 
-            try
+            using (new System.ServiceModel.OperationContextScope(client.InnerChannel))
             {
-                client.CriarReserva(reserva); 
-                MessageBox.Show("Reserva criada com sucesso.");
-                CarregarReservas();
+                ApiKeyHelper.AddApiKey(ApiKeyConfig.ApiKey);
+                client.CriarReserva(reserva);
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Erro ao criar reserva: " + ex.Message);
-            }
+
+            MessageBox.Show("Reserva criada com sucesso.");
+            CarregarReservas();
         }
 
         private void btnCancelarReserva_Click(object sender, EventArgs e)
         {
-            //if (listBoxReservas.SelectedItem is not ReservaClass reserva)
-            //{
-            //    MessageBox.Show("Seleciona uma reserva válida.");
-            //    return;
-            //}
             var reserva = listBoxReservas.SelectedItem as ReservaClass;
             if (reserva == null)
             {
@@ -195,7 +171,12 @@ namespace SmartStudyRooms.SOAPClient
                 return;
             }
             var client = new SoapReservasReference.ReservaSoapServiceClient();
-            client.CancelarReserva(reserva.ReservaId);
+
+            using (new System.ServiceModel.OperationContextScope(client.InnerChannel))
+            {
+                ApiKeyHelper.AddApiKey(ApiKeyConfig.ApiKey);
+                client.CancelarReserva(reserva.ReservaId);
+            }
 
             MessageBox.Show("Reserva cancelada.");
             CarregarReservas();
