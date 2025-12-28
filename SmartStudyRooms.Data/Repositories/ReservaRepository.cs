@@ -10,10 +10,12 @@ namespace SmartStudyRooms.Data.Repositories
     public class ReservaRepository
     {
         private readonly string _conn;
+        private readonly string _connectionString;
 
         public ReservaRepository(IConfiguration config)
         {
             _conn = config.GetConnectionString("DefaultConnection");
+            _connectionString = config.GetConnectionString("DefaultConnection");
         }
 
         public bool SalaDisponivel(int salaId, DateTime inicio, DateTime fim)

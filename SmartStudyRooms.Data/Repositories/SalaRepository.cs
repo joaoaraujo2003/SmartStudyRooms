@@ -12,6 +12,7 @@ namespace SmartStudyRooms.Data.Repositories
     public class SalaRepository
     {
         private readonly string _conn;
+        private readonly string _connectionString;
 
         public SalaRepository(IConfiguration configuration)
         {
@@ -19,6 +20,7 @@ namespace SmartStudyRooms.Data.Repositories
                 throw new ArgumentNullException(nameof(configuration), "IConfiguration não foi injetado no SalaRepository. Verifica Startup.cs.");
 
             _conn = configuration.GetConnectionString("DefaultConnection");
+            _connectionString = configuration.GetConnectionString("DefaultConnection");
 
             if (string.IsNullOrWhiteSpace(_conn))
                 throw new InvalidOperationException("Connection string 'DefaultConnection' não encontrada. Verifica connection.json e o nome da chave.");

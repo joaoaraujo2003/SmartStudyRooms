@@ -77,7 +77,7 @@
             this.dtInicio.Name = "dtInicio";
             this.dtInicio.Size = new System.Drawing.Size(226, 30);
             this.dtInicio.TabIndex = 3;
-            this.dtInicio.Value = new System.DateTime(2025, 12, 26, 0, 0, 0, 0);
+            this.dtInicio.Value = new System.DateTime(2025, 12, 28, 21, 59, 6, 0);
             // 
             // dtFim
             // 
@@ -89,6 +89,7 @@
             this.dtFim.Name = "dtFim";
             this.dtFim.Size = new System.Drawing.Size(226, 30);
             this.dtFim.TabIndex = 4;
+            this.dtFim.Value = new System.DateTime(2025, 12, 28, 21, 58, 57, 0);
             // 
             // btnCriarReserva
             // 
