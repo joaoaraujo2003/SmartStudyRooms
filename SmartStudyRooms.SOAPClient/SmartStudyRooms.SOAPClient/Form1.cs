@@ -23,7 +23,7 @@ namespace SmartStudyRooms.SOAPClient
 
             listBox1.DrawItem += listBox1_DrawItem;
 
-
+            CarregarReservas();
             CarregarSalas();       
         }
 
@@ -180,6 +180,11 @@ namespace SmartStudyRooms.SOAPClient
 
             MessageBox.Show("Reserva cancelada.");
             CarregarReservas();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

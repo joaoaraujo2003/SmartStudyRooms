@@ -37,6 +37,8 @@
             this.btnCriarReserva = new System.Windows.Forms.Button();
             this.btnCancelarReserva = new System.Windows.Forms.Button();
             this.listBoxReservas = new System.Windows.Forms.ListBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // button1
@@ -77,7 +79,7 @@
             this.dtInicio.Name = "dtInicio";
             this.dtInicio.Size = new System.Drawing.Size(226, 30);
             this.dtInicio.TabIndex = 3;
-            this.dtInicio.Value = new System.DateTime(2025, 12, 28, 21, 59, 6, 0);
+            this.dtInicio.Value = new System.DateTime(2025, 12, 29, 23, 32, 42, 0);
             // 
             // dtFim
             // 
@@ -89,14 +91,14 @@
             this.dtFim.Name = "dtFim";
             this.dtFim.Size = new System.Drawing.Size(226, 30);
             this.dtFim.TabIndex = 4;
-            this.dtFim.Value = new System.DateTime(2025, 12, 28, 21, 58, 57, 0);
+            this.dtFim.Value = new System.DateTime(2025, 12, 29, 23, 33, 3, 0);
             // 
             // btnCriarReserva
             // 
             this.btnCriarReserva.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCriarReserva.Location = new System.Drawing.Point(635, 370);
+            this.btnCriarReserva.Location = new System.Drawing.Point(585, 370);
             this.btnCriarReserva.Name = "btnCriarReserva";
-            this.btnCriarReserva.Size = new System.Drawing.Size(94, 67);
+            this.btnCriarReserva.Size = new System.Drawing.Size(144, 67);
             this.btnCriarReserva.TabIndex = 5;
             this.btnCriarReserva.Text = "Criar Reserva";
             this.btnCriarReserva.UseVisualStyleBackColor = true;
@@ -107,7 +109,7 @@
             this.btnCancelarReserva.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnCancelarReserva.Location = new System.Drawing.Point(760, 370);
             this.btnCancelarReserva.Name = "btnCancelarReserva";
-            this.btnCancelarReserva.Size = new System.Drawing.Size(101, 67);
+            this.btnCancelarReserva.Size = new System.Drawing.Size(155, 67);
             this.btnCancelarReserva.TabIndex = 7;
             this.btnCancelarReserva.Text = "Cancelar Reserva";
             this.btnCancelarReserva.UseVisualStyleBackColor = true;
@@ -119,14 +121,37 @@
             this.listBoxReservas.ItemHeight = 16;
             this.listBoxReservas.Location = new System.Drawing.Point(553, 12);
             this.listBoxReservas.Name = "listBoxReservas";
-            this.listBoxReservas.Size = new System.Drawing.Size(379, 260);
+            this.listBoxReservas.Size = new System.Drawing.Size(481, 260);
             this.listBoxReservas.TabIndex = 8;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(493, 295);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(112, 20);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "Data de inicio";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(493, 333);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(96, 20);
+            this.label2.TabIndex = 10;
+            this.label2.Text = "Data de fim";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1046, 449);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.listBoxReservas);
             this.Controls.Add(this.btnCancelarReserva);
             this.Controls.Add(this.btnCriarReserva);
@@ -138,6 +163,7 @@
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -151,6 +177,8 @@
         private System.Windows.Forms.Button btnCriarReserva;
         private System.Windows.Forms.Button btnCancelarReserva;
         private System.Windows.Forms.ListBox listBoxReservas;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
     }
 }
 
